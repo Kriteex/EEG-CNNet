@@ -1,4 +1,4 @@
-from model_eegnet import EEGNet
+from model_eegnet import EEGNet, EEGNetV2
 from data_preprocess import load_data, save_results
 from metrics_and_plots import accuracy, plot_training_progress, plot_confusion_matrix
 from trainin_and_testin import train, test_all, train_losses, test_losses
@@ -19,7 +19,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 # Initialize the model
-model = EEGNet()
+model = EEGNetV2()
 model = model.to(device)
 
 
