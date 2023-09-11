@@ -5,6 +5,7 @@ from typing import Optional
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+
 class EEGNet(nn.Module):
     """
     EEGNet model for EEG signal classification.

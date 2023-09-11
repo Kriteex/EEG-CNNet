@@ -33,7 +33,7 @@ def load_data(path, people, strategy="UPSAMPLE"):
         train_data = train_data_smote.reshape((-1, n_channels, n_freq))
 
         test_data_smote, test_label = smote.fit_resample(test_data_2d, test_label)
-        test_data = test_data_under.reshape((-1, n_channels, n_freq))
+        test_data = test_data_smote.reshape((-1, n_channels, n_freq))
 
     return train_data, train_label, test_data, test_label
 

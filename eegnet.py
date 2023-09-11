@@ -19,7 +19,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 # Initialize the model
-model = EEGNetV2()
+model = EEGNet(conv1_out_channels=248)
 model = model.to(device)
 
 
