@@ -1,0 +1,14 @@
+# Data Manipulation and Computation
+numpy
+pandas
+
+# Data Visualization
+matplotlib
+seaborn
+
+# Machine Learning and Deep Learning
+imbalanced-learn  # For RandomUnderSampler and SMOTE
+scikit-learn  # For confusion_matrix
+torch
+
+# Add any other additional packages you may need

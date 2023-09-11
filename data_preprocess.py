@@ -6,7 +6,7 @@ from imblearn.under_sampling import RandomUnderSampler
 
 
 
-def load_data(path, people):
+def load_data(path, people, strategy="UPSAMPLE"):
 
     smote = SMOTE(sampling_strategy='all')
     undersample = RandomUnderSampler(sampling_strategy='auto')
@@ -18,15 +18,22 @@ def load_data(path, people):
 
     n_samples, n_channels, n_freq = train_data.shape
     train_data_2d = train_data.reshape((n_samples, n_channels * n_freq))
-    train_data_under, train_label = undersample.fit_resample(train_data_2d, train_label)
-    #train_data_smote, train_label = smote.fit_resample(train_data_2d, train_label)
-    train_data = train_data_under.reshape((-1, n_channels, n_freq))
 
     n_samples, n_channels, n_freq = test_data.shape
     test_data_2d = test_data.reshape((n_samples, n_channels * n_freq))
-    test_data_under, test_label = undersample.fit_resample(test_data_2d, test_label)
-    #test_data_smote, test_label = smote.fit_resample(test_data_2d, test_label)
-    test_data = test_data_under.reshape((-1, n_channels, n_freq))
+
+    if strategy == "UNDERSAMPLE":
+        train_data_under, train_label = undersample.fit_resample(train_data_2d, train_label)
+        train_data = train_data_under.reshape((-1, n_channels, n_freq))
+
+        test_data_under, test_label = undersample.fit_resample(test_data_2d, test_label)
+        test_data = test_data_under.reshape((-1, n_channels, n_freq))
+    elif strategy == "UPSAMPLE":
+        train_data_smote, train_label = smote.fit_resample(train_data_2d, train_label)
+        train_data = train_data_smote.reshape((-1, n_channels, n_freq))
+
+        test_data_smote, test_label = smote.fit_resample(test_data_2d, test_label)
+        test_data = test_data_under.reshape((-1, n_channels, n_freq))
 
     return train_data, train_label, test_data, test_label
 
