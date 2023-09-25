@@ -39,7 +39,7 @@ def plot_training_progress(train_losses, test_losses, path):
     plt.ylabel('Loss')
     plt.legend()
     plt.savefig(path+"/training_progress.png")
-    plt.show()
+    #plt.show()
 
 
 

@@ -1,6 +1,7 @@
 import torch
 import numpy as np
 from torch import nn
+from math import *
 from typing import Optional
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -43,9 +44,18 @@ class EEGNet(nn.Module):
             nn.Flatten()
             )
 
+        # Calculate output shape after Conv1D
+        O_conv1 = floor((5 - conv1_kernel_size + 2) / 1) + 1
+        
+        # Calculate output shape after MaxPool1D
+        O_maxpool1 = floor((O_conv1 - 2) / 2) + 1
+        
+        # Calculate output shape after Flatten
+        calculated_O_flatten1 = O_maxpool1 * conv1_out_channels
+
 
         self.linear_relu_stack1 = nn.Sequential(
-            nn.Linear(248, 124),  # adjust input size according to the output size of pooling layer
+            nn.Linear(calculated_O_flatten1, 124),  # adjust input size according to the output size of pooling layer
             nn.ReLU(),
             nn.Dropout(drop_rate),
             nn.Linear(124, 124),
@@ -58,8 +68,17 @@ class EEGNet(nn.Module):
             nn.Softmax(dim=1)
         )
 
+        # Calculate output shape after Conv1D
+        O_conv2 = floor((5 - conv2_kernel_size + 2) / 1) + 1
+        
+        # Calculate output shape after MaxPool1D
+        O_maxpool2 = floor((O_conv2 - 2) / 2) + 1
+        
+        # Calculate output shape after Flatten
+        calculated_O_flatten2 = O_maxpool2 * conv2_out_channels
+
         self.linear_relu_stack2 = nn.Sequential(
-            nn.Linear(248, 124),  # adjust input size according to the output size of pooling layer
+            nn.Linear(calculated_O_flatten2, 124),  # adjust input size according to the output size of pooling layer
             nn.ReLU(),
             nn.Dropout(drop_rate),
             nn.Linear(124, 124),
@@ -121,9 +140,19 @@ class EEGNetV2(nn.Module):
             nn.Flatten()
             )
 
+        # Calculate output shape after Conv1D
+        O_conv1 = floor((62 - conv1_kernel_size + 2) / 1) + 1
+        
+        # Calculate output shape after MaxPool1D
+        O_maxpool1 = floor((O_conv1 - 2) / 2) + 1
+        
+        # Calculate output shape after Flatten
+        calculated_O_flatten1 = O_maxpool1 * conv1_out_channels
+
+
 
         self.linear_relu_stack1 = nn.Sequential(
-            nn.Linear(620, 248),  # adjust input size according to the output size of pooling layer
+            nn.Linear(calculated_O_flatten1, 248),  # adjust input size according to the output size of pooling layer
             nn.ReLU(),
             nn.Dropout(drop_rate),
             nn.Linear(248, 124),
@@ -136,8 +165,17 @@ class EEGNetV2(nn.Module):
             nn.Softmax(dim=1)
         )
 
+        # Calculate output shape after Conv1D
+        O_conv2 = floor((62 - conv2_kernel_size + 2) / 1) + 1
+        
+        # Calculate output shape after MaxPool1D
+        O_maxpool2 = floor((O_conv2 - 2) / 2) + 1
+        
+        # Calculate output shape after Flatten
+        calculated_O_flatten2 = O_maxpool2 * conv2_out_channels
+
         self.linear_relu_stack2 = nn.Sequential(
-            nn.Linear(620, 124),  # adjust input size according to the output size of pooling layer
+            nn.Linear(calculated_O_flatten2, 124),  # adjust input size according to the output size of pooling layer
             nn.ReLU(),
             nn.Dropout(drop_rate),
             nn.Linear(124, 124),

@@ -4,10 +4,9 @@ from metrics_and_plots import accuracy
 from data_preprocess import load_data
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-train_losses = []
-test_losses = []
 
-def train(model, train_data, train_labels, test_data, test_labels, loss_fn, optimizer, epochs=100):
+
+def train(model, train_data, train_labels, test_data, test_labels, loss_fn, optimizer, train_losses, test_losses, epochs=100, silent=True):
     train_data_torch = torch.from_numpy(train_data).float().to(device)
     train_labels_torch = torch.from_numpy(train_labels).long().to(device)
 
@@ -41,9 +40,12 @@ def train(model, train_data, train_labels, test_data, test_labels, loss_fn, opti
             test_acc = accuracy(test_pred, test_labels_torch)
 
 
-        if (epoch) % 10 == 0:
-            print(f'Epoch {epoch}/{epochs}, Training Loss: {str(loss.item())[:4]}, Validation Loss: {str(test_loss.item())[:4]}')
-            print(f'Training accuracy: {str(acc.item())[:4]}, Test_accuracy: {str(test_acc.item())[:4]}')
+        if not silent:
+            if (epoch) % 10 == 0:
+                print(f'Epoch {epoch}/{epochs}, Training Loss: {str(loss.item())[:4]}, Validation Loss: {str(test_loss.item())[:4]}')
+                print(f'Training accuracy: {str(acc.item())[:4]}, Test_accuracy: {str(test_acc.item())[:4]}')
+        else:
+            pass
 
 
 
