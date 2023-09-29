@@ -88,3 +88,4 @@ def test_all(path, save_dir, model):
                 tot_acc = (tot_acc + test_acc_class)/2
 
     print("TOTAL TEST ACC: " + str(tot_acc.item())[:4])
+    return float(tot_acc.item())

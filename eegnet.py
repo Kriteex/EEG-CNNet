@@ -22,15 +22,15 @@ model_name = "EEGNetV2"
 loss_fn = nn.CrossEntropyLoss()
 
 if model_name == "EEGNet":
-    conv1_out_channels = [8, 16, 32, 64, 128, 258]
-    conv1_kernel_size = [1,2,3,4,5]
-    conv2_out_channels = [8, 16, 32, 64, 128, 258]
-    conv2_kernel_size = [1,2,3,4,5]
+    conv1_out_channels = [8]#, 16, 32, 64, 128, 258]
+    conv1_kernel_size = [1]#,2,3,4,5]
+    conv2_out_channels = [8]#, 16, 32, 64, 128, 258]
+    conv2_kernel_size = [1]#,2,3,4,5]
 elif model_name == "EEGNetV2":
-    conv1_out_channels = [32, 64, 128]
-    conv1_kernel_size = [3,5,7,13,25,50]
-    conv2_out_channels = [32, 64, 128]
-    conv2_kernel_size = [3,5,7,13,25,50]
+    conv1_out_channels = [32]#, 64, 128]
+    conv1_kernel_size = [3]#,5,7,13,25,50]
+    conv2_out_channels = [32]#, 64, 128]
+    conv2_kernel_size = [3]#,5,7,13,25,50]
 
 
 def runs(people, path, train_losses, test_losses):
@@ -44,6 +44,8 @@ def runs(people, path, train_losses, test_losses):
 
 if __name__ == '__main__':
     save_dir = "/home/karl/Desktop/EEG/EEG-CNNet/Base_results/"
+
+    accuracies = []
 
     for conv1_ch in conv1_out_channels:
         for conv2_ch in conv2_out_channels:
@@ -83,5 +85,13 @@ if __name__ == '__main__':
 
                     plot_training_progress(train_losses, test_losses, new_save_dir)
 
-                    test_all(path, new_save_dir, model)
+                    test_acc = test_all(path, new_save_dir, model)
+
+                    model_acc_tupple = {folder_name, test_acc}
+
+                    accuracies.append(model_acc_tupple)
+
+    accuracies = pd.DataFrame(accuracies, columns=["accuracy", "model"])
+    accuracies.to_csv("accuracies.csv")
+
 
